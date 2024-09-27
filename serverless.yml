@@ -1,0 +1,46 @@
+service: EKT-final-test 
+frameworkVersion: '3'
+
+provider:
+    name: aws
+    runtime: nodejs20.x
+    versionFunctions: false
+    region: us-east-1
+    stage: ${opt:stage, ''}
+    timeout: 30
+    apiGateway:
+      restApiId: ${self:custom.params.RESTAPIGWID}
+      restApiRootResourceId: ${self:custom.params.RESOURCEAPIGWROOTID}
+    environment: ${self:custom.environments}
+    iam:
+      role: ${self:custom.params.LAMBDAROLE}
+package:
+  patterns:
+    - '!node_modules/.prisma/client/libquery_engine-*'
+    - 'node_modules/.prisma/client/libquery_engine-rhel-*'
+    - '!node_modules/prisma/libquery_engine-*'
+    - '!node_modules/@prisma/engines/**'
+functions:
+    api:
+      handler: app.handler
+      events:
+        - http:
+            method: post
+            path: api/users/create
+            cors: true
+        - http:
+            method: post
+            path: api/users/login
+            cors: true
+        - http:
+            method: post
+            path: api/users/logout
+            cors: true
+        - http:
+            method: post
+            path: api/users/getAll
+            cors: true
+        
+custom:
+    environments: ${file(serverless.env.yml):${self:provider.stage}}
+    params: ${file(serverless.env.yml):parameters}

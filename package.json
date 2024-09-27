@@ -1,0 +1,34 @@
+{
+  "name": "ekt-back-final-test-api",
+  "version": "1.0.0",
+  "description": "Elektra final test for KOIT",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "deploy": "serverless deploy --stage dev"
+  },
+  "keywords": [
+    "elektra",
+    "final",
+    "test",
+    "koit"
+  ],
+  "author": "Luis Eduardo Ronquillo Arroyo",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "frameguard": "^4.0.0",
+    "helmet": "^7.1.0",
+    "jwt-simple": "^0.5.6",
+    "serverless-http": "^3.2.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.2",
+    "nodemon": "^3.1.7",
+    "prisma": "^5.20.0"
+  }
+}
