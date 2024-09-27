@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "d51a2cc2-eb7a-4dd3-af8f-99315b484bbd",
+		"name": "EKT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4766803"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"luis desde\",\r\n  \t\"firstLastName\": \"aws\",\r\n\t\"secondLastName\": \"lambda\",\r\n\t\"email\": \"\",\r\n  \t\"phoneNumber\": \"98355502\",\r\n  \t\"username\": \"aws\",\r\n  \t\"password\": \"lambda\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/users/create",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Generar token\", function () {\r",
+									"    // Verifica que la respuesta tenga un estado 200 (OK)\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    // Verifica que no haya errores en la respuesta\r",
+									"    if (pm.response.json().errors) {\r",
+									"        throw new Error(\"La respuesta contiene errores: \" + JSON.stringify(pm.response.json().errors));\r",
+									"    }\r",
+									"\r",
+									"    var res = pm.response.json();\r",
+									"\r",
+									"    pm.collectionVariables.set('tokenEKT', res.data.session.token);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \t\"username\": \"aws\", //actually allows username or phone number\r\n  \t\"password\": \"lambda\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/users/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "{{tokenEKT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/users/logout",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get All",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-token",
+								"value": "{{tokenEKT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/users/getAll",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "tokenEKT",
+			"value": ""
+		},
+		{
+			"key": "URLLOCAL",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
